@@ -1,14 +1,34 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
+    <ion-title>Todos</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <ion-list>
+    <ion-item>
+      <ion-label>To do
+        <ion-icon name="arrow-round-forward"></ion-icon>
+      </ion-label>
+      <ion-input type="text" [(ngModel)]="todo"></ion-input>
+      <button (click)="addTodo($event)" ion-button outline item-end>Add</button>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-item-sliding *ngFor="let todo of todos | async">
+      <ion-item ngClass="{{todo.complete?'done':''}}">
+        <ion-checkbox [(ngModel)]="todo.complete" (ionChange)="completeTodo(todo)"></ion-checkbox>
+        <ion-label>{{ todo.text }}</ion-label>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button icon-only (click)="deleteTodo(todo)">
+          <ion-icon name="remove-circle"></ion-icon>
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <p ng-if="todos" text-center>Slide an item to left to show more options</p>
+
 </ion-content>
